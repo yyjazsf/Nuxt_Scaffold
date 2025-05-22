@@ -1,0 +1,10 @@
+/* 
+  编辑器点击无法跳转,
+  Tailwind 是通过 PostCSS 插件注入的
+  @import "tailwindcss"; 并不是直接引入某个文件路径，
+  而是由 postcss（或 tailwindcss CLI）在构建时解释为其他语句 
+  VSCode 无法识别 PostCSS 插件的特殊 import 行为
+  插件 Tailwind CSS IntelliSense 可以智能提示、颜色预览、类名验证等,但是无法跳转
+*/
+@import "tailwindcss";
+@import "@nuxt/ui";
