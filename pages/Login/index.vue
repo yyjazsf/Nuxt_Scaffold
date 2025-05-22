@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import * as v from 'valibot'
 import type { FormSubmitEvent } from '@nuxt/ui'
+import { useAuth } from '~/composables/useAuth'
 
 const schema = v.object({
   email: v.pipe(v.string(), v.email('Invalid email')),
@@ -9,6 +10,7 @@ const schema = v.object({
 
 type Schema = v.InferOutput<typeof schema>
 const toast = useToast()
+const { setAuthState } = useAuth()
 
 const state = reactive({
   email: '',
@@ -18,11 +20,16 @@ const state = reactive({
 async function login(event: FormSubmitEvent<Schema>) {
   toast.add({ title: 'Success', description: 'The form has been submitted.', color: 'success' })
   console.log('login', event.data)
-  const { data } = await useFetch('/api/mock/login', {
+  const { data: respData } = await useFetch('/api/mock/login', {
     method: 'POST',
     body: event.data
   })
-  console.log(data)
+  const { code, data, message } = respData.value
+  console.log(data.token)
+  // 设置认证状态
+  setAuthState(data.token)
+  // 登录成功后跳转到首页
+  navigateTo('/')
 }
 </script>
 
