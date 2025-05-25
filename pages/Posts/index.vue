@@ -1,13 +1,14 @@
 <script setup lang="ts">
-const { data } = await useFetch('/mock/posts')
+const { data } = await useFetch('/api/mock/posts')
 </script>
 
 <template>
   <div>
-    <NuxtLink to="/">Home page</NuxtLink>
+    <AppLink to="/">Home page</AppLink>
     <ul>
-      <li v-for="post in data" :key="post.id">
-        <NuxtLink :to="`/posts/${post.id}`">{{ post.title }}</NuxtLink>
+      <li v-for="post in data?.list" :key="post.id">
+        {{ post.id }}
+        <AppLink :to="`/posts/${post.id}`">{{ post.title }}</AppLink>
       </li>
     </ul>
   </div>

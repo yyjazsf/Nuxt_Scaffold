@@ -8,3 +8,7 @@
 */
 @import "tailwindcss";
 @import "@nuxt/ui";
+
+:root {
+  --font-sans: "PingFangSC", "Microsoft YaHei", sans-serif;
+}

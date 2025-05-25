@@ -3,6 +3,12 @@ import * as v from 'valibot'
 import type { FormSubmitEvent } from '@nuxt/ui'
 import { useAuth } from '~/composables/useAuth'
 
+// 设置页面元数据
+useSeoMeta({
+  title: 'Login',
+  robots: 'noindex,nofollow' // 防止密码管理器过度索引登录页
+})
+
 const schema = v.object({
   email: v.pipe(v.string(), v.email('Invalid email')),
   password: v.pipe(v.string(), v.minLength(8, 'Must be at least 8 characters'))
@@ -24,12 +30,18 @@ async function login(event: FormSubmitEvent<Schema>) {
     method: 'POST',
     body: event.data
   })
+  
+  if (!respData.value) {
+    toast.add({ title: 'Error', description: 'Login failed', color: 'error' })
+    return
+  }
+  
   const { code, data, message } = respData.value
   console.log(data.token)
   // 设置认证状态
   setAuthState(data.token)
   // 登录成功后跳转到首页
-  navigateTo('/')
+  await navigateTo('/', { replace: true })
 }
 </script>
 

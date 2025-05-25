@@ -1,25 +1,29 @@
 <script setup lang="ts">
+const { t, locales, setLocale } = useI18n()
 const appConfig = useAppConfig()
 useSeoMeta({
   title: 'home',
   // description: 'seo friendly home page',
 })
-// const { data } = await useFetch('/api/hello')
 </script>
 
 <template>
   <div>
-    <!-- <h1>{{ data.message }}</h1> -->
+    <div>
+      <button v-for="locale in locales" @click="setLocale(locale.code)">
+        {{ locale.name }}
+      </button>
+    </div>
     <h2 class="test-vars">{{ appConfig.title }}</h2>
     <ul>
       <li>
-        <NuxtLink to="/about">About</NuxtLink>
+        <AppLink to="/about">{{ t('about') }}</AppLink>
       </li>
       <li>
-        <NuxtLink to="/login">login</NuxtLink>
+        <AppLink to="/login">{{ t('login') }}</AppLink>
       </li>
       <li>
-        <NuxtLink to="/posts/1">Post 1</NuxtLink>
+        <AppLink to="/posts">{{ t('post') }}</AppLink>
       </li>
     </ul>
   </div>
